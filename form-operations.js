@@ -10,9 +10,14 @@
     	// initial settings
 	    var defaults = {
 	    	'query': null,
-	    	'events': ['change'],		// array of events that trigger recalculation (event on query elements) - RE_SPECIFY 'change' IF YOU PASS THIS PARAMETER
-	    	'checkNew': false,			// if set to true checks for fields inserted in the DOM afterwards initialization
-	    	'timedCheck': 0,			// check changes every specified milliseconds (n <= 0 is disabled) - CAN SLOW DOWN THE PAGE
+	    	'events': ['change'],				// array of events that trigger recalculation (event on query elements) - RE_SPECIFY 'change' IF YOU PASS THIS PARAMETER
+	    	'checkNew': false,					// if set to true checks for fields inserted in the DOM afterwards initialization
+	    	'timedCheck': 0,					// check changes every specified milliseconds (n <= 0 is disabled) - CAN SLOW DOWN THE PAGE
+	    	'fieldsDecimalSeparator': '.',		// decimal separator used in the input fields
+	    	'fieldsThousandSeparator': '',		// thousand separator used in the input fields
+	    	'resultDecimalSeparator': '.',		// decimal separator used in the result field
+	    	'resultThousandSeparator': '',		// thousand separator used in the result field
+	    	'decimalDigits': -1					// to fix the number of decimal digits in the result input a number 0 <= n <= 20
 	    };
 	    var element = this;
         if(options != undefined && typeof options === 'string') options = {'query': options};
@@ -32,7 +37,22 @@
         // extend default settings
         var settings = $.extend({}, defaults, options);
 
-        console.log(settings);
+        // check separators
+        if(settings['fieldsDecimalSeparator'] == settings['fieldsThousandSeparator']){
+        	throw 'Thousand and decimal fields separator must differ';
+        	return;
+        }
+        if(settings['resultDecimalSeparator'] == settings['resultThousandSeparator']){
+        	throw 'Thousand and decimal result separator must differ';
+        	return;
+        }
+        if(settings['resultDecimalSeparator'].trim() == '' || settings['fieldsDecimalSeparator'].trim() == ''){
+        	throw 'Decimal separator cannot be empty';
+        	return;
+        }
+
+
+
 
         // search elements to add listeners
         var start, end, selector, query = settings['query'];
@@ -74,8 +94,8 @@
 	    	longEnd = end + 1;
 	    	while(longStart >= 0 && query.charAt(longStart) == ' ') longStart--;
 	    	if(longStart < 0) longStart = start;
-			while(longEnd < query.lenght && query.charAt(longEnd) == ' ') longEnd++;
-	    	if(longEnd >= query.lenght) longEnd = end;
+			while(longEnd < query.length && query.charAt(longEnd) == ' ') longEnd++;
+	    	if(longEnd >= query.length) longEnd = end;
 
 	    	pre = query.charAt(longStart);
 	    	post = query.charAt(longEnd);
@@ -91,17 +111,19 @@
 	    	toRemove = query.substring(longStart, longEnd + 1);
 	    	start = start - longStart;
 	    	end = end - longStart;
-	    	query = query.substring(0, longStart) + query.substring(longEnd + 1, query.lenght);
+	    	query = query.substring(0, longStart) + query.substring(longEnd + 1, query.length);
 
 	    	// generate substitutive code
 	    	$(selector).each(function(){
-	    		query = query.splice(longStart, 0, toRemove.substring(0, start) + getFieldValue($(this)) + toRemove.substring(end + 1, toRemove.lenght));
+	    		query = query.splice(longStart, 0, toRemove.substring(0, start) + fromDisplayFormat(getFieldValue($(this)), settings) + toRemove.substring(end + 1, toRemove.length));
 	    	});
     	}
 
     	// creates a FUNCTION FROM the calculated QUERY
     	var exec = new Function('return ' + query + ';');
         var val = exec();
+
+        val = toDisplayFormat(val, settings);
 
         // SET the VALUE IN the RESULT field
     	setFieldValue(res, val);
@@ -123,7 +145,31 @@
     	else return val = el.html();
 
     	if(val.trim() == '') val = 0;
-    	return val;
+    	return val + '';
+    }
+
+    // manage display formats
+    function toDisplayFormat(val, settings){
+    	var newVal = val;
+    	if(typeof newVal === 'string') newVal = parseFloat(newVal);
+    	if(settings['decimalDigits'] >= 0 && settings['decimalDigits'] <= 20) newVal = newVal.toFixed(settings['decimalDigits']);
+    	newVal = newVal + '';
+
+    	var dec = settings['resultDecimalSeparator'];
+    	if(newVal.split('.').length > 1) dec += newVal.split('.')[1];
+    	else dec = '';
+
+    	newVal = newVal.split('.')[0];
+    	newVal = newVal.chunk(3, 1).join(settings['resultThousandSeparator']);
+    	newVal += dec;
+
+    	return newVal;
+    }
+
+    function fromDisplayFormat(val, settings){
+		var t = new RegExp(settings['fieldsThousandSeparator'],'g');
+		var d = new RegExp(settings['fieldsDecimalSeparator'],'g');
+    	return val.replace(t, '').replace(d, '.');
     }
  
 }( jQuery ));
@@ -132,4 +178,16 @@
 // inserts string in other string after idx - 1 and returns result
 String.prototype.splice = function( idx, rem, s ) {
     return (this.slice(0,idx) + s + this.slice(idx + Math.abs(rem)));
+};
+
+// chunks up a string in pieces of 'num' length in 'dir' direction (0 left to right, 1 right to left)
+String.prototype.chunk = function(num, dir) {
+    var ret = [];
+    var len = this.length;
+    var start = (len * dir) % num;
+    if(start > 0) ret.push(this.substr(0, start));
+    for(var i = start; i < len; i += num) {
+       ret.push(this.substr(i, num));
+    }
+    return ret
 };

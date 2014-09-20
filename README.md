@@ -13,6 +13,9 @@ options = {query: 'your query'};
 $('result_field_selector').(options);
 
 
+It can be used on HTML elements other than INPUT too!
+
+
 =================== OPTIONS ===================
 
 <table><thead><tr><th>Option</th><th>Default</th><th>Input</th></tr></thead><tbody>

@@ -18,7 +18,7 @@ $('result_field_selector').(options);
 <table><thead><tr><th>Option</th><th>Default</th><th>Input</th></tr></thead><tbody>
 <tr><td>query</td><td>null</td><td>Mathematical expression with jquery selectors between {} ('1 + {#my-field}')</td></tr>
 <tr><td>events</td><td>['change']</td><td>array of events that trigger recalculation (event on query elements)</td></tr>
-<tr><td>checkNew</td><td>false</td><td><td>if set to true checks for fields inserted in the DOM afterwards initialization</td></tr>
+<tr><td>checkNew</td><td>false</td><td></td>if set to true checks for fields inserted in the DOM afterwards initialization</td></tr>
 <tr><td>timedCheck</td><td>0</td><td>check changes every specified milliseconds (n <= 0 is disabled)</td></tr>
 <tr><td>fieldsDecimalSeparator</td><td>'.'</td><td>decimal separator used in the input fields</td></tr>
 <tr><td>fieldsThousandSeparator</td><td>''</td><td>thousand separator used in the input fields</td></tr>

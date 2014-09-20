@@ -3,7 +3,7 @@ form-operations
 
 JQuery plugin to manage operations between fields and/or html elements
 
-=================== USAGE ===================
+<h1>usage</h1>
 
 $('result_field_selector').('query_string');
 
@@ -16,7 +16,7 @@ $('result_field_selector').(options);
 It can be used on HTML elements other than INPUT too!
 
 
-=================== OPTIONS ===================
+<h1>options</h1>
 
 <table><thead><tr><th>Option</th><th>Default</th><th>Input</th></tr></thead><tbody>
 <tr><td>query</td><td>null</td><td>Mathematical expression with jquery selectors between {} ('1 + {#my-field}')</td></tr>

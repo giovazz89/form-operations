@@ -38,8 +38,9 @@ EXAMPLE
 
 <pre><code>$('#result selector').operation('... - 1 + {.myfields} * 5 ...');</code>
 
-it will become:<code>('... - 1 + {myfields 1 value} * {myfields 2 value} * ... * 5);</code></pre>
+//it will become:
+<code>('... - 1 + {myfields 1 value} * {myfields 2 value} * ... * 5);</code></pre>
 
 IF YOU WANT THAT TO BE A SUM
 
-<pre><code>$('#result selector').operation('... - (1 + {.myfields}) * 5 ...');</code> ...add parenthesis!! ;)</pre>
+<pre><code>$('#result selector').operation('... - (1 + {.myfields}) * 5 ...');</code> //...add parenthesis!! ;)</pre>

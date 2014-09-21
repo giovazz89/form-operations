@@ -3,20 +3,20 @@ form-operations
 
 JQuery plugin to manage operations between fields and/or html elements
 
-<h1>usage</h1>
+<h3>usage</h3>
 
-$('result_field_selector').operation('query_string');
+<pre><code>$('result_field_selector').operation('query_string');</code></pre>
 
 OR
 
-options = {query: 'your query'};
-$('result_field_selector').operation(options);
+<pre><code>options = {query: 'your query'};
+$('result_field_selector').operation(options);</code></pre>
 
 
 It can be used on HTML elements other than INPUT too!
 
 
-<h1>options</h1>
+<h3>options</h3>
 
 <table><thead><tr><th>Option</th><th>Default</th><th>Input</th></tr></thead><tbody>
 <tr><td>query</td><td>null</td><td>Mathematical expression with jquery selectors between {} ('1 + {#my-field}')</td></tr>
@@ -30,16 +30,16 @@ It can be used on HTML elements other than INPUT too!
 <tr><td>decimalDigits</td><td>-1</td><td>to fix the number of decimal digits in the result input a number 0 <= n <= 20</td></tr>
 </tbody></table>
 
-<h1>multiple fields selector</h1>
+<h3>multiple fields selector</h3>
 
 If a selector has been used for multiple fileds ('{.myfields}' or others) it calculates all their values (prioritizing multiplications and divisions)
 
 EXAMPLE
 
-$('#result selector').operation('... - 1 + {.myfields} * 5 ...');
+<pre><code>$('#result selector').operation('... - 1 + {.myfields} * 5 ...');</code>
 
-it will become: ('... - 1 + {myfields 1 value} * {myfields 2 value} * ... * 5);
+it will become:<code>('... - 1 + {myfields 1 value} * {myfields 2 value} * ... * 5);</code></pre>
 
 IF YOU WANT THAT TO BE A SUM
 
-$('#result selector').operation('... - (1 + {.myfields}) * 5 ...'); ...add parenthesis!! ;)
+<pre><code>$('#result selector').operation('... - (1 + {.myfields}) * 5 ...');</code> ...add parenthesis!! ;)</pre>

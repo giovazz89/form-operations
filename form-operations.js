@@ -24,7 +24,7 @@
 
 
         // check query
-    	if(options['query'] == null || options['query'].replace(/{/g, '').replace(/}/g, '').trim() == ''){
+    	if(options['query'] == null || options['query'].replace(/[{}\s]/g, '').length == 0){
     		throw 'Your query is empty!';
     		return;
 		}

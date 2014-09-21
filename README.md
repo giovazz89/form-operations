@@ -5,12 +5,12 @@ JQuery plugin to manage operations between fields and/or html elements
 
 <h1>usage</h1>
 
-$('result_field_selector').('query_string');
+$('result_field_selector').operation('query_string');
 
 OR
 
 options = {query: 'your query'};
-$('result_field_selector').(options);
+$('result_field_selector').operation(options);
 
 
 It can be used on HTML elements other than INPUT too!
@@ -29,3 +29,17 @@ It can be used on HTML elements other than INPUT too!
 <tr><td>resultThousandSeparator</td><td>''</td><td>thousand separator used in the result field</td></tr>
 <tr><td>decimalDigits</td><td>-1</td><td>to fix the number of decimal digits in the result input a number 0 <= n <= 20</td></tr>
 </tbody></table>
+
+<h1>multiple fields selector</h1>
+
+If a selector has been used for multiple fileds ('{.myfields}' or others) it calculates all their values (prioritizing multiplications and divisions)
+
+EXAMPLE
+
+$('#result selector').operation('... - 1 + {.myfields} * 5 ...');
+
+it will become: ('... - 1 + {myfields 1 value} * {myfields 2 value} * ... * 5);
+
+IF YOU WANT THAT TO BE A SUM
+
+$('#result selector').operation('... - (1 + {.myfields}) * 5 ...'); ...add parenthesis!! ;)

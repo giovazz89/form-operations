@@ -191,3 +191,5 @@ String.prototype.chunk = function(num, dir) {
     }
     return ret
 };
+
+/* =============================================== created by giovazzz89 - http://giovannimuzzolini.com ================================================ */

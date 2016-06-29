@@ -51,6 +51,12 @@
         	return;
         }
 
+        // escape fields separators
+        if(settings['fieldsDecimalSeparator'] == '.')
+        	settings['fieldsDecimalSeparator'] = '/.';
+        if(settings['fieldsThousandSeparator'] == '.')
+        	settings['fieldsThousandSeparator'] = '/.';
+
 
 
 

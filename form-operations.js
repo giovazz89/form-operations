@@ -63,6 +63,7 @@
     		selector = query.substring(start + 1, end).trim();
 
     		for(var i in settings['events']){
+                	if(typeof settings['events'][i] != 'string') continue;
 	        	if(settings['checkNew']) $(document).on(settings['events'][i], selector, function(){ calculate(element, settings); });
 	    		else $(selector).on(settings['events'][i], function(){ calculate(element, settings); });
     		}
